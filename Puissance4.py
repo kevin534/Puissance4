@@ -1,10 +1,6 @@
-
 from turtle import *
 import os,random
 
-# Dans le cadre du jeux enttre deux humains 
-# Dans le cadre du jeux avec la machine le joueur BLEU est joué automatiquement par l'ordinateur : 
-# le seul joueur humain est le joueur ROUGE 
 class Joueur:
   
     # La fonction get_colonne demande au joueur de saisir un nombre entre 0 et 6,
@@ -48,19 +44,15 @@ class Joueur:
        
 
 class JoueurIA:
-   
-    
-    #test_saisie  == get_colonne
+      
+
     def get_colonne_Machine(self,grille,joueur_courant,tab_colonne,afficher_grille):
-        #global grille,joueur_courant,tab_colonne
         if joueur_courant==1:
             joueur='ROUGE'
         else:
             joueur='BLEU'
             # le joueur 2 est remplacé par l'ordinateur qui renvoie ici un numéro de colonne entre 0 et 6
-
             # NIVEAU 1 : l'ordinateur recherche des pions rouges déjà alignés dans la grille
-
             # teste si 3 pions rouges sont alignés :
             prochain=self.jetons_rouges_alignes(grille,3)
             if prochain!=-1:
@@ -137,10 +129,7 @@ class JoueurIA:
                             if grille[i][j]!=0:
                                 tab_colonne[j]+=1
                                 self.dessiner_pion(j,5-i,grille[i][j])
-
-                    print('\n\n\n\n\n\n=============================================')
                     print(' PUISSANCE 4 : FINIR UNE PARTIE')
-                    print('=============================================')
                     if joueur_courant==1:
                         joueur='ROUGE'
                     else:
@@ -166,9 +155,9 @@ class JoueurIA:
 
    # La fonction jouer() demande au joueur courant dans quelle colonne (de 0 à 6) il veut jouer
     def jouer(self,grille,joueur_courant,tab_colonne,afficher_grille):
-       # global joueur_courant
+
         joueur=["ROUGE","BLEU"]
-        # La fonction tester_saisie renvoie forcément un chiffre entre 0 et 6 :
+        # La fonction get_colonne_Machine renvoie forcément un chiffre entre 0 et 6 :
         colonne=self.get_colonne_Machine(grille,joueur_courant,tab_colonne,afficher_grille)
         while tab_colonne[colonne]==6:
             print('La colonne %d est pleine ! %s jouez dans une colonne non pleine' % (colonne,joueur[joueur_courant-1]))
@@ -398,13 +387,9 @@ class Grille:
     #permet d'afficher la grille avec le choix de chaque joueur
     # La fonction afficher() affiche la grille sur la sortie standard
     def afficher(self,grille):
-        #ligne = 6
-        #for i in range(ligne):
-           # print("afficher grille")
-           # print(grille[i])
+
         for row in grille:
             print("+---+---+---+---+---+---+---+") 
-
             line = []
             for item in row:
                 if item == 1:
@@ -415,10 +400,11 @@ class Grille:
                     line.append(" ")
             print("| " + " | ".join(line)+ " | ")
         print("+---+---+---+---+---+---+---+") 
+        # affiche le repère des colonnes sous la grille :
+        print('\n  0    1   2   3   4   5   6')
         print()                  
 
-    # affiche le repère des colonnes sous la grille :
-    print('\n 0  1  2  3  4  5  6')
+    
 
 
     # La fonction grille_pleine() teste si la grille est pleine (aucun 0 dans la liste grille)
@@ -722,11 +708,7 @@ class Grille:
                 bleu[1]=0
 
         # si on n'a rien trouvé on retourne 0 :
-        return trouve
- 
-
-    def positionner(self,ligne,colonne,jeton):
-        self.grille[ligne][colonne] = jeton                         
+        return trouve                         
     
     def dessiner_grille(self,x_base,y_base,largeur):
         up()
@@ -754,20 +736,23 @@ class Grille:
             goto(x_base+i*largeur+largeur//2,y_base-largeur//2)
             down()
             write(str(i))
-
-    # La fonction dessiner_pion(x,y,couleur) ajoute un pion dans la case (x,y)
     
 
 class Puissance4:
 
     def jouer_avec_humain_ou_machine(self):
         str = ""
-        print(" Bienvenue dans le jeu Puissance4 ")
-        str = input("Desirez-vous jouer avec un humain(entrer humain) ou avec une machine(entrer machine) : ")
-        if str == "humain":
+        
+        str = input("Desirez-vous jouer avec un humain(entrer h) ou avec une machine(entrer m) ?   ")
+        if str == "h":
+           print(" Bienvenue dans le jeu Puissance4 ") 
            self. jeux_Humain_Humain()
-        elif str == "machine": 
-           self.jeux_humain_machine()   
+        elif str == "m": 
+           print(" Bienvenue dans le jeu Puissance4 ")
+           self.jeux_humain_machine() 
+        else:
+            print("Entrez 'h' pour humain et 'm' pour la machine!")
+            self.jouer_avec_humain_ou_machine()   
 
 
     # La fonction qui_commence_entre_hummain_et_machine() demande à l'utilisateur le joueur qui commence (ROUGE ou BLEU)
@@ -797,7 +782,7 @@ class Puissance4:
         hideturtle()
         init_grille.dessiner_grille(x_base,y_base,largeur)
 
-        print('\n\n\n\n\n\n=============================================')
+        print('\n\n\n=============================================')
         print(' DEBUT DU JEUX [HUMAIN - MACHINE]')
         print('=============================================\n\n')
         print("Avant de lancer le programme réduisez la fenêtre de Python sur la moitié droite de l'écran.")
@@ -816,7 +801,7 @@ class Puissance4:
         print('\nDébut de la partie (la grille est vide) :')
         gagnant=0
         while not init_grille.grille_pleine(grille) and gagnant==0:
-           # init_grille.afficher(grille)
+
             joueurIA.jouer(grille,joueur_courant,tab_colonne,init_grille.afficher(grille))
             joueur_courant=3-joueur_courant
             gagnant=init_grille.test_gagner(grille)
@@ -839,13 +824,14 @@ class Puissance4:
 
 
     def jeux_Humain_Humain(self):
-        print("Bienvenue dans le jeu Puissance4 Humain - Humain")
+        print('\n\n\n=============================================')
+        print(' DEBUT DU JEUX [HUMAIN - HUMAIN]')
+        print('=============================================\n\n')
         joueurIA = JoueurIA()
         joueur = Joueur()
         init_grille = Grille()
         # joueur_courant indique le prochain joueur qui doit jouer : 1 pour Kevin et 2 pour Xavier
         joueur_courant=1
-        #get_colonne = joueur.get_colonne(joueur_courant)
         colonne = 7
         # tab_colonne mémorise le nombre de pions dans chacune des colonnes
         tab_colonne = colonne*[0]
